@@ -4,6 +4,7 @@ import pip
 import logging
 from shutil import copy, rmtree
 from .helpers import get_rhino_ironpython_path
+import subprocess
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
@@ -16,13 +17,13 @@ if __name__ == '__main__':
 
     # Install the package to Rhino IronPython Users lib
     package_name = 'gh-python-remote'
-    pip_cmd = ['install', '--upgrade', '--target=' + rhino_ironpython_path,
-               '--no-binary=:all:', '--no-compile', '--ignore-requires-python',
-               '--process-dependency-links',
+    pip_cmd = [' install ', '--upgrade ', '--target=' + str('"'+rhino_ironpython_path+'"'),
+               ' --no-binary=:all: ', '--no-compile ', '--ignore-requires-python ',
+               '--process-dependency-links ',
                package_name, ]
     print('\n\nThis will install ghpythonremote in Rhino IronPython with the command:')
     print('pip ' + ' '.join(pip_cmd))
-    pip.main(pip_cmd)
+    subprocess.check_call([sys.executable, '-m', 'pip', pip_cmd])
 
     # Get the Grasshopper libraries base dir
     gh_userobjects_path = os.path.join(os.getenv('APPDATA', ''), 'Grasshopper', 'UserObjects')
